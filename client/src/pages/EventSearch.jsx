@@ -1,115 +1,149 @@
 import React from "react"
-import {AppBar, Toolbar, Button, Container, Grid, GridList, Card, CardMedia, CardContent,Chip} from "@material-ui/core"
-import styles from "./home.module.css"
+import {FormGroup, FormControlLabel, Checkbox, Button, Container, Grid, GridList, Card, CardMedia, CardContent,Chip} from "@material-ui/core"
+import {Link} from "react-router-dom"
+import axios from "axios"
 
-   var cardContentStyle = {
-       textAlign:"center",
-       paddingTop:"2%"
-    }
+var cardContentStyle = {
+    textAlign:"center",
+    paddingTop:"2%"
+ }
 
-    var chipStyle={
-        margin:"3px"
-    }
+ var chipStyle={
+    margin:"3px"
+}
 
 export default class EventSearch extends React.Component{
     constructor(props){
         super(props)
+        this.state={
+            mainType:"",
+            eventList:[],
+
+        }
+
+        this.apiSearch = this.apiSearch.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.isBoxChecked = this.isBoxChecked.bind(this)
+        
+    }
+
+    apiSearch(searchBody){
+        axios.post(`/api/events/search`,searchBody).then((response)=>{
+            this.setState({eventList:response.data})
+        })
+    }
+
+    componentDidMount(){
+        var mainType = this.props.match.params.type
+        //We get the events for the selected Main Type
+        this.setState({mainType:mainType[0].toUpperCase() + mainType.substring(1)},()=>{
+            this.apiSearch({type:mainType})
+        })  
+        //We set the menu checkbox as ticked
+        
+    }
+
+    isBoxChecked(name){
+        if(this.state.mainType === name){
+            return true
+        }
+    }
+
+    handleChange(e){
+        var name = e.target.name
     }
 
     render(){
         return(
+            <Grid container item spacing={3} style={{marginTop:"7.3vw"}}>
+                <Grid item container xs={12} sm={12} md={2} lg={2} style={{padding:"2vw"}}>
+                    <h3>Event Type</h3>
+                     <FormGroup row>
+                                <FormControlLabel
+                                    control={<Checkbox checked={true} onChange={this.handleChange} name="fun" type="eventType" />}
+                                    label="Fun Events and Meetups"/>
+                        </FormGroup>
+                        <FormGroup row>
+                                <FormControlLabel
+                                    control={<Checkbox  onChange={this.handleChange} name="levelup" type="eventType"/>}
+                                    label="Level Up Events"/>
+                        </FormGroup>
+                        <FormGroup row>
+                                <FormControlLabel
+                                    control={<Checkbox  onChange={this.handleChange} name="career" type="eventType"/>}
+                                    label="Career Events"/>
+                        </FormGroup>
+                        <FormGroup row>
+                                <FormControlLabel
+                                    control={<Checkbox onChange={this.handleChange} name="fitness" type="eventType"/>}
+                                    label="Fitness Events"/>
+                        </FormGroup>
+                        
+                        <h3>Date </h3>
+                        <FormGroup row>
+                                <FormControlLabel
+                                    control={<Checkbox  onChange name="today" />}
+                                    label="This Week"/>
+                        </FormGroup>
+                        <FormGroup row>
+                                <FormControlLabel
+                                    control={<Checkbox  onChange name="this week" />}
+                                    label="This Week"/>
+                        </FormGroup>
+                        <FormGroup row>
+                                <FormControlLabel
+                                    control={<Checkbox  onChange name="next week" />}
+                                    label="Next Week"/>
+                        </FormGroup>
+                </Grid>
 
-            <Grid container item spacing={3}>
-                   <Grid item xs={12} sm={12} md={12} lg={12} style={{paddingRight:"10%",paddingLeft:"10%"}}>
-                                <CardMedia
-                                style={{height:"40vh",backgroundPosition:"center",backgroundSize:"100% auto"}}
-                                image="https://images.unsplash.com/photo-1586899028174-e7098604235b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80"
-                                title="Fun"
-                                />
-                                
-                        </Grid>
+                <Grid item container xs={12} sm={12} md={10} lg={10} >
+                    <Link to="/home" style={{color:"black",textDecoration:"none"}}>
+                        <Button variant="outlined">
+                            Back
+                        </Button>
+                    </Link>
+                    <br></br>
+                    <div style={{textAlign:"center"}}>
+                        <h1> 
+                            {this.state.mainType} Events 
+                        </h1>
+                    </div>
 
-                    <Grid item container style={{paddingLeft:"10%",paddingRight:"10%"}}>
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <h2 className="defaultFont">
-                                 <br></br>
-                                 Find fun virtual events to attend this week or next week!
-                            </h2>
-                            
-                            <br></br>  <br></br>
-                           
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                                <CardMedia
-                                style={{height:"40vh",backgroundPosition:"center",backgroundSize:"100% auto"}}
-                                image="https://images.unsplash.com/photo-1523908511403-7fc7b25592f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                                title="Fun"
-                                />
-                                <Card>
-                                    <CardContent style={cardContentStyle}>
-                                        <h1 > Fun Events</h1>
-                                        {["Networking","Meetups","Meeting people"].map((data,position) => {
-                                            return (
-                                                <Chip key={position} label={data} style={chipStyle}/>
-                                            );
-                                        })}
-                                    </CardContent>
-                                </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                                <CardMedia
-                                style={{height:"40vh",backgroundPosition:"center",backgroundSize:"100% auto"}}
-                                image="https://images.unsplash.com/photo-1502185635613-0a5b2e78efea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-                                title="Fun"
-                                />
-                                <Card>
-                                    <CardContent style={cardContentStyle}>
-                                        <h1  className="defaultFont">Level Up Events</h1>
-                                        {["Learn something new","New skills"].map((data,position) => {
-                                            return (
-                                                <Chip key={position} label={data} style={chipStyle}/>
-                                            );
-                                        })}
-                                    </CardContent>
-                                </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                                <CardMedia
-                                style={{height:"40vh",backgroundPosition:"center",backgroundSize:"100% auto"}}
-                                image="https://images.unsplash.com/photo-1573164713619-24c711fe7878?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-                                title="Career"
-                                />
-                                <Card>
-                                    <CardContent style={cardContentStyle}>
-                                        <h1 >Career Events</h1>
-                                       {["Self-improvement","Networking","LinkedIn Events","Virtual Happy Hour", "Creatives","Tech"].map((data,position) => {
-                                            return (
-                                                <Chip key={position} label={data} style={chipStyle}/>
-                                            );
-                                        })}
-                                    </CardContent>
-                                </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6} lg={6}>
-                                <CardMedia
-                                style={{height:"40vh",backgroundPosition:"center",backgroundSize:"100% auto"}}
-                                image="https://images.unsplash.com/photo-1544216717-3bbf52512659?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                                title="Fun"
-                                />
-                                <Card>
-                                    <CardContent style={cardContentStyle}>
-                                        <h1  className="defaultFont">Fitness Events</h1>
-                                        {["Get movin!","Exercising","Virtual Zumba","More"].map((data,position) => {
-                                            return (
-                                                <Chip key={position} label={data} style={chipStyle} /> 
-                                            );
-                                        })}
-                                    </CardContent>
-                                </Card>
-                        </Grid>
-
+                    <Grid container spacing={3} style={{padding:"1%"}}>
+                        {this.state.eventList.map((event,index)=>{
+                            return(
+                                <Grid item xs={12} sm={12} md={6} lg={6}>
+                                  
+                                  <Card>
+                                            <CardMedia
+                                            style={{height:"40vh",backgroundPosition:"center",backgroundSize:"100% auto"}}
+                                            image="https://images.unsplash.com/photo-1544216717-3bbf52512659?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                                            title="Fun"
+                                            />
+                                           
+                                                <CardContent style={cardContentStyle}>
+                                                    <h1  className="defaultFont">{event.name}</h1>
+                                                    <h2>Date: {event.date.toString()}</h2>
+                                                    {event.tags.map((data,position) => {
+                                                        return (
+                                                            <Chip key={position} label={data} style={chipStyle} /> 
+                                                        );
+                                                    })}
+                                                    <br></br>
+                                                <Link to="/eventSearch/fitness" className="clearTextDecoration">
+                                                    <Button color="secondary" variant="outlined">View event page</Button>
+                                                </Link>
+                                                </CardContent>
+                                            </Card>
+                                       
+                               </Grid>
+                            )
+                        })}
                     </Grid>
                 
+                </Grid>
+                       
             </Grid>
         )
     }

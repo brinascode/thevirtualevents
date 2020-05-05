@@ -1,9 +1,25 @@
-var express = require('express');
-var router = express.Router();
+module.exports = function(app,passport){
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+  var express = require('express');
+  var router = express.Router();
+  var User = require("../models").User
+  var userController = require("../controllers/userController")
 
-module.exports = router;
+  router.post("/signup",function(req,res){
+      userController.create(req,res)
+  })
+
+  router.post('/login',  passport.authenticate('local'), function(req, res) {
+    res.json({signedin:req.user.username,
+    });
+  });
+
+
+   router.post('/logout', function(req, res) {
+                              req.logout()
+                              res.json({signedout:req.user.username,
+                                        });
+                          });
+  return router
+
+}

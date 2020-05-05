@@ -1,4 +1,4 @@
 module.exports = {
-    Event:require("./Event"),
+    Event:require("./Event.js"),
     User:require("./User")
 }

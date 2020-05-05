@@ -4,10 +4,20 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+var eventsApiRouter = require('./routes/eventsApiRouter');
 var usersRouter = require('./routes/users');
 
+
+
 var app = express();
+
+//Db setup
+var mongoose = require("mongoose")
+mongoose.connect("mongodb://localhost/thevirtualevents",{
+  useNewUrlParser: true,
+  useFindAndModify: false
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -17,10 +27,34 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+
+//Passport
+var passport = require("passport")
+var flash = require("connect-flash")
+var session = require("express-session")
+require("./authen/passport.js")(passport)
+// Passport stuff 2
+app.use(session({
+    secret: 'sabrinayes',
+    resave: true,
+    saveUninitialized: true,
+    //cookie: { httpOnly: true, domain:"localhost" } //bring back to true ,you cant set cookies for another domain
+})); // session secret
+app.use(passport.initialize()); 
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+app.use('/api/events', eventsApiRouter);
+app.use('/api/users', usersRouter(app,passport));
+
+
+
+app.get("*",function(req,res){
+  res.sendFile(path.join(__dirname,"client/index.html"))
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

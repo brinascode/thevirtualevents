@@ -16,7 +16,7 @@ function App() {
             <NavBar/>
             <Route exact path = "/" component={Home}/>
             <Route exact path = "/home" component={Home}/>
-            <Route exact path = "/eventSearch" component={EventSearch}/>
+            <Route path="/eventSearch/:type" component={EventSearch}/>
             <Footer/>
         </Grid>
     </Switch>
