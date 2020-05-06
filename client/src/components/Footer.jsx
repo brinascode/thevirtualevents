@@ -10,7 +10,7 @@ var footerStyle={
     backgroundColor:"black",
     color:"white",
     padding:"4%",
-    marginTop:"10vw",
+    marginTop:"0vw",
     height:"40vh"
 }
 

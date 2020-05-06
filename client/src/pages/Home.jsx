@@ -19,8 +19,8 @@ export default class Home extends React.Component{
 
     render(){
         return(
-            <div>
-            <Grid container  >
+           
+            <Grid container  style={{marginBottom:"5vw"}}>
                         {/* <Grid item xs={12} sm={12} md={12} lg={12} style={{paddingRight:"10%",paddingLeft:"10%"}}>
                                         <CardMedia
                                         style={{height:"40vh",backgroundPosition:"top",backgroundSize:"100% auto"}}
@@ -126,7 +126,7 @@ export default class Home extends React.Component{
                     </Grid>
                 
             </Grid>
-            </div>
+            
         )
     }
 }

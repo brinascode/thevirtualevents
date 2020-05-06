@@ -12,7 +12,6 @@ module.exports = {
                     if (err) throw err;
                     res.json(savedUser)
                 })
-                
             })
             .catch((err)=>{if (err) throw err})
     },
