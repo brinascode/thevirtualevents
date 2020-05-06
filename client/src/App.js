@@ -25,8 +25,8 @@ class App extends React.Component {
       this.state={
           mobile:window.innerWidth > 500 ? false : true,
           authState:false,
-          setAuthState: this.setAuthState,
-          text:"test"
+          setAuthState: this.setAuthState
+          
       }
      
   }
@@ -61,7 +61,7 @@ class App extends React.Component {
                 <Route exact path = "/home" component={Home}/>
                 <Route path="/eventSearch/:type" component={EventSearch}/>
                 <Route path="/auth/:type" component={Auth}/>
-                <Route path="/userHome" render={()=>{return(this.context.authState ? <UserHome /> : <Redirect to="/home" />)}}/>
+                <Route path="/userHome" render={()=> this.state.authState ? <UserHome/> : <Redirect to="/home" />}/>
                 <Footer/>
             </Grid>
         </Switch>

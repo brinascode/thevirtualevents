@@ -8,9 +8,8 @@ import {
 } from "@material-ui/core"
 import {useReducer, useContext, useState} from "react"
 import axios from "axios"
-import {Redirect} from "react-router-dom"
 import AppContext from "../utils/AppContext"
-
+import {Redirect} from "react-router"
 
 // Used to login
 function loginReducer(state, action) {
@@ -151,6 +150,8 @@ export default function Auth(props) {
 
     const successRedirect = (e)=>{
         props.history.push('/userHome')
+        // // BrowserHistory.push("/userHome")
+      
     }
 
 
@@ -231,7 +232,7 @@ export default function Auth(props) {
                     <br></br>
                     <br></br>
                    
-
+                    
                     <Snackbar open={
                            snackBarOpen
                         }

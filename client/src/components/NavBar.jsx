@@ -32,6 +32,7 @@ var toolbarStyle = {
 class NavBar extends React.Component {
     constructor(props, context) {
         super(props, context)
+        console.log(context)
     }
 
     render() {
@@ -81,7 +82,7 @@ class NavBar extends React.Component {
                                  </Button>: <></>
                             }
 
-
+                               
                             <Button color="inherit">
                                 {
                                 this.context.authState === false ? <span>
