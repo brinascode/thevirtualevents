@@ -60,6 +60,7 @@ class App extends React.Component {
                 <Route exact path = "/" component={Home}/>
                 <Route exact path = "/home" component={Home}/>
                 <Route path="/eventSearch/:type" component={EventSearch}/>
+                <Route path="/eventSearch" component={EventSearch}/>
                 <Route path="/auth/:type" component={Auth}/>
                 <Route path="/userHome" render={()=> this.state.authState ? <UserHome/> : <Redirect to="/home" />}/>
                 <Footer/>

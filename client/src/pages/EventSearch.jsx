@@ -18,7 +18,6 @@ export default class EventSearch extends React.Component{
         this.state={
             mainType:"",
             eventList:[],
-
         }
 
         this.apiSearch = this.apiSearch.bind(this)
@@ -34,12 +33,18 @@ export default class EventSearch extends React.Component{
     }
 
     componentDidMount(){
-        var mainType = this.props.match.params.type
-        //We get the events for the selected Main Type
-        this.setState({mainType:mainType[0].toUpperCase() + mainType.substring(1)},()=>{
-            this.apiSearch({type:mainType})
-        })  
-        //We set the menu checkbox as ticked
+        //If there's a specific eventSearch type in the params:
+        if(this.props.match.params.type){
+            var mainType = this.props.match.params.type
+            //We get the events for the selected Main Type
+            this.setState({mainType:mainType[0].toUpperCase() + mainType.substring(1)},()=>{
+                this.apiSearch({type:mainType})
+            })  
+            //We set the menu checkbox as ticked
+        }else{
+            return
+        }
+
         
     }
 

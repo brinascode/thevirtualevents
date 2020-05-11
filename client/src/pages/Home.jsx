@@ -31,7 +31,6 @@ export default class Home extends React.Component{
                                 </Grid> */}
 
                          <Grid item xs={12} sm={12} md={12} lg={12} style={{height:"8vw",paddingRight:"10%",paddingLeft:"10%"}}>
-                                      
                         </Grid>
 
 
@@ -39,8 +38,9 @@ export default class Home extends React.Component{
                         <Grid item xs={12} sm={12} md={12} lg={12} style={{textAlign:"center"}} >
                             <h1>Bored during quarantine? We got you.</h1>
                             <h2 className="defaultFont">
-                                Browse fun virtual events going live soon!
+                                <Button> <Link to="/eventSearch" className="clearTextDecoration"> <h2>Find fun virtual events going live soon! </h2> </Link> </Button>
                             </h2>
+                            <button></button>
                             
                             <br></br>  <br></br>
                            
